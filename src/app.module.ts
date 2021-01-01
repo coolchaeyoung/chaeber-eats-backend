@@ -4,6 +4,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from "joi";
 import { join } from 'path';
+import { Restaurant } from './restaurants/entities/restaurants.entity';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 
 @Module({
@@ -16,22 +17,23 @@ import { RestaurantsModule } from './restaurants/restaurants.module';
         NODE_ENV: Joi.string()
           .valid('dev', 'text')
           .required(),
-        DB_HOST: Joi.string().required,
-        DB_PORT: Joi.string().required,
-        DB_USERNAME: Joi.string().required,
-        DB_PASSWORD: Joi.string().required,
-        DB_NAME: Joi.string().required,
+        DB_HOST: Joi.string().required(),
+        DB_PORT: Joi.string().required(),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_NAME: Joi.string().required(),
       })
     }),
     TypeOrmModule.forRoot({
-      "type": "postgres",
-      "host": process.env.DB_HOST,
-      "port": +process.env.DB_PORT,
-      "username": process.env.DB_USERNAME,
-      "password": process.env.DB_PASSWORD,
-      "database": process.env.DB_NAME,
-      "synchronize": true,
-      "logging": true,
+      type: 'postgres',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      synchronize: process.env.NODE_ENV !== 'prod',
+      logging: true,
+      entities: [Restaurant]
     }),
     GraphQLModule.forRoot({
     autoSchemaFile: true,
