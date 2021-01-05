@@ -9,6 +9,7 @@ import { Restaurant } from './restaurants/entities/restaurants.entity';
 import { RestaurantsModule } from './restaurants/restaurants.module';
 import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { JwtModule } from './jwt/jwt.module';
 
 @Module({
   imports: [
@@ -43,7 +44,10 @@ import { UsersModule } from './users/users.module';
       autoSchemaFile: true,
     }),
     UsersModule,
-    CommonModule
+    CommonModule,
+    JwtModule.forRoot({
+      privateKey: process.env.SECRET_KEY
+    })
   ],
   controllers: [],
   providers: [],
