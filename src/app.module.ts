@@ -11,6 +11,7 @@ import { User } from './users/entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { JwtModule } from './jwt/jwt.module';
 import { jwtMiddleWare } from './jwt/jwt.middleware';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -43,12 +44,14 @@ import { jwtMiddleWare } from './jwt/jwt.middleware';
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: true,
+      context: ({ req }) => ({ user: req['user']})
     }),
     UsersModule,
     CommonModule,
     JwtModule.forRoot({
       privateKey: process.env.SECRET_KEY
-    })
+    }),
+    AuthModule
   ],
   controllers: [],
   providers: [],
