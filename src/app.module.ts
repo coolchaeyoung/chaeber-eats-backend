@@ -52,7 +52,6 @@ import { MailModule } from './mail/mail.module';
       context: ({ req }) => ({ user: req['user']})
     }),
     UsersModule,
-    CommonModule,
     JwtModule.forRoot({
       privateKey: process.env.SECRET_KEY
     }),
