@@ -54,7 +54,8 @@ export class UserService {
                     error: 'User not found'
                 }
             }
-            const passwordCorrect = await (await user).comparePassword(password);
+        
+            const passwordCorrect = await user.comparePassword(password);
             if(!passwordCorrect) {
                 return {
                     ok: false,
@@ -69,18 +70,18 @@ export class UserService {
         } catch(error) {
             return {
                 ok: false,
-                error
+                error: "Can't log user in." 
             }
         }
     }
 
     async findById(id: number): Promise<UserProfileOutput> {
         try {
-            const user = await this.users.findOne({id});
-            if(user) {
-                return { ok: true };
+            const user = await this.users.findOneOrFail({id});
+            return { 
+                ok: true,
+                user 
             };
-            throw Error();
         } catch(e) {
             return { ok: false, error: 'User not found.'};
         }
