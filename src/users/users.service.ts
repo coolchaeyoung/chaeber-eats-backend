@@ -118,9 +118,9 @@ export class UserService {
                 await this.verifications.delete(verifycation.id);
                 return { ok: true };
             }
-            throw Error();
+            return { ok: false, error: 'Verification not found.' };
         } catch(error) {
-            return { ok: false, error }
+            return { ok: false, error: 'Could not verify email' };
         }
     }
 }
